@@ -16,7 +16,7 @@ namespace BonelabDevMode
         public string command = "";
         public static bool DevModeEnabled;
 
-        public static void ConnectButton()
+        public static void ConnectButton(string ipppath)
         {
             if (websocket != null)
             {
@@ -26,7 +26,7 @@ namespace BonelabDevMode
 
             try
             {
-                websocket = new WebSocketSharp.WebSocket(path);
+                websocket = new WebSocketSharp.WebSocket(ipppath);
                 websocket.OnMessage += (sender, e) => Console.WriteLine(e.Data);
                 websocket.Connect();
             }

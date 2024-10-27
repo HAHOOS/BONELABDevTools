@@ -38,7 +38,9 @@
             btn_command = new Button();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            tb_ipport = new TextBox();
             groupBox4 = new GroupBox();
+            label1 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -122,7 +124,7 @@
             groupBox1.Controls.Add(btn_command);
             groupBox1.Controls.Add(tb_command);
             groupBox1.ForeColor = SystemColors.ControlLightLight;
-            groupBox1.Location = new Point(198, 78);
+            groupBox1.Location = new Point(198, 103);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(311, 58);
             groupBox1.TabIndex = 7;
@@ -145,12 +147,13 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(tb_reloadpallet);
             groupBox2.Controls.Add(btn_reloadpallet);
             groupBox2.ForeColor = SystemColors.ControlLightLight;
             groupBox2.Location = new Point(198, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(311, 60);
+            groupBox2.Size = new Size(311, 85);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "Pallet";
@@ -158,33 +161,55 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.Black;
+            groupBox3.Controls.Add(tb_ipport);
             groupBox3.Controls.Add(btn_connect);
             groupBox3.Controls.Add(btn_disconnect);
             groupBox3.ForeColor = SystemColors.ControlLightLight;
             groupBox3.Location = new Point(12, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(180, 60);
+            groupBox3.Size = new Size(180, 85);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Connection";
+            // 
+            // tb_ipport
+            // 
+            tb_ipport.BackColor = SystemColors.ControlLight;
+            tb_ipport.BorderStyle = BorderStyle.FixedSingle;
+            tb_ipport.Location = new Point(6, 51);
+            tb_ipport.Name = "tb_ipport";
+            tb_ipport.PlaceholderText = "IP:Port";
+            tb_ipport.Size = new Size(167, 23);
+            tb_ipport.TabIndex = 9;
+            tb_ipport.Text = "ws://127.0.0.1:50152/console";
             // 
             // groupBox4
             // 
             groupBox4.Controls.Add(btn_levelreload);
             groupBox4.ForeColor = SystemColors.ControlLightLight;
-            groupBox4.Location = new Point(12, 78);
+            groupBox4.Location = new Point(12, 103);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(180, 58);
             groupBox4.TabIndex = 10;
             groupBox4.TabStop = false;
             groupBox4.Text = "Level";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 53);
+            label1.Name = "label1";
+            label1.Size = new Size(280, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Make sure the pallet barcode is a valid barcode.        ";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(526, 155);
+            ClientSize = new Size(521, 176);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -197,6 +222,7 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -214,10 +240,11 @@
         private GroupBox groupBox2;
         private GroupBox groupBox3;
         private GroupBox groupBox4;
+        private TextBox tb_ipport;
 
         private void btn_connect1(object sender, System.EventArgs e)
         {
-            DevMode.ConnectButton();
+            DevMode.ConnectButton(tb_ipport.Text);
         }
 
         private void btn_disconnect1(object sender, System.EventArgs e)
@@ -238,5 +265,7 @@
         {
             DevMode.SendCommand(tb_command.Text);
         }
+
+        private Label label1;
     }
 }
