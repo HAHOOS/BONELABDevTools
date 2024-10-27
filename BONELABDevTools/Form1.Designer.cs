@@ -61,6 +61,7 @@
             tb_spawn = new TextBox();
             btn_spawn = new Button();
             label_currentLevel = new Label();
+            tb_ipport = new TextBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -75,7 +76,7 @@
             btn_connect.BackColor = SystemColors.ControlLight;
             btn_connect.FlatStyle = FlatStyle.Flat;
             btn_connect.ForeColor = SystemColors.ControlText;
-            btn_connect.Location = new Point(6, 22);
+            btn_connect.Location = new Point(6, 50);
             btn_connect.Name = "btn_connect";
             btn_connect.Size = new Size(81, 23);
             btn_connect.TabIndex = 0;
@@ -89,7 +90,7 @@
             btn_disconnect.Enabled = false;
             btn_disconnect.FlatStyle = FlatStyle.Flat;
             btn_disconnect.ForeColor = SystemColors.ControlText;
-            btn_disconnect.Location = new Point(93, 22);
+            btn_disconnect.Location = new Point(93, 50);
             btn_disconnect.Name = "btn_disconnect";
             btn_disconnect.Size = new Size(80, 23);
             btn_disconnect.TabIndex = 1;
@@ -115,9 +116,9 @@
             btn_reloadpallet.BackColor = SystemColors.ControlLight;
             btn_reloadpallet.FlatStyle = FlatStyle.Flat;
             btn_reloadpallet.ForeColor = SystemColors.ControlText;
-            btn_reloadpallet.Location = new Point(168, 15);
+            btn_reloadpallet.Location = new Point(6, 78);
             btn_reloadpallet.Name = "btn_reloadpallet";
-            btn_reloadpallet.Size = new Size(133, 23);
+            btn_reloadpallet.Size = new Size(295, 23);
             btn_reloadpallet.TabIndex = 3;
             btn_reloadpallet.Text = "Reload Pallet";
             btn_reloadpallet.UseVisualStyleBackColor = false;
@@ -127,10 +128,10 @@
             // 
             tb_pallet.BackColor = SystemColors.ControlLight;
             tb_pallet.BorderStyle = BorderStyle.FixedSingle;
-            tb_pallet.Location = new Point(6, 15);
+            tb_pallet.Location = new Point(6, 21);
             tb_pallet.Name = "tb_pallet";
             tb_pallet.PlaceholderText = "PalletAuthor.PalletName";
-            tb_pallet.Size = new Size(156, 23);
+            tb_pallet.Size = new Size(295, 23);
             tb_pallet.TabIndex = 4;
             // 
             // tb_command
@@ -150,7 +151,7 @@
             groupBox1.Controls.Add(btn_command);
             groupBox1.Controls.Add(tb_command);
             groupBox1.ForeColor = SystemColors.ControlLightLight;
-            groupBox1.Location = new Point(12, 90);
+            groupBox1.Location = new Point(12, 125);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(497, 92);
             groupBox1.TabIndex = 7;
@@ -199,7 +200,7 @@
             label_coordinates.AutoSize = true;
             label_coordinates.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label_coordinates.ForeColor = SystemColors.ControlLightLight;
-            label_coordinates.Location = new Point(18, 185);
+            label_coordinates.Location = new Point(18, 220);
             label_coordinates.Name = "label_coordinates";
             label_coordinates.Size = new Size(128, 13);
             label_coordinates.TabIndex = 9;
@@ -214,7 +215,7 @@
             groupBox2.ForeColor = SystemColors.ControlLightLight;
             groupBox2.Location = new Point(198, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(311, 67);
+            groupBox2.Size = new Size(311, 107);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "Pallet";
@@ -224,9 +225,9 @@
             btn_unloadpallet.BackColor = SystemColors.ControlLight;
             btn_unloadpallet.FlatStyle = FlatStyle.Flat;
             btn_unloadpallet.ForeColor = SystemColors.ControlText;
-            btn_unloadpallet.Location = new Point(168, 39);
+            btn_unloadpallet.Location = new Point(161, 50);
             btn_unloadpallet.Name = "btn_unloadpallet";
-            btn_unloadpallet.Size = new Size(133, 22);
+            btn_unloadpallet.Size = new Size(140, 22);
             btn_unloadpallet.TabIndex = 6;
             btn_unloadpallet.Text = "Unload Pallet";
             btn_unloadpallet.UseVisualStyleBackColor = false;
@@ -237,9 +238,9 @@
             btn_loadpallet.BackColor = SystemColors.ControlLight;
             btn_loadpallet.FlatStyle = FlatStyle.Flat;
             btn_loadpallet.ForeColor = SystemColors.ControlText;
-            btn_loadpallet.Location = new Point(6, 39);
+            btn_loadpallet.Location = new Point(6, 50);
             btn_loadpallet.Name = "btn_loadpallet";
-            btn_loadpallet.Size = new Size(156, 22);
+            btn_loadpallet.Size = new Size(140, 22);
             btn_loadpallet.TabIndex = 5;
             btn_loadpallet.Text = "Load Pallet";
             btn_loadpallet.UseVisualStyleBackColor = false;
@@ -248,13 +249,14 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.Black;
+            groupBox3.Controls.Add(tb_ipport);
             groupBox3.Controls.Add(connectionStatus);
             groupBox3.Controls.Add(btn_connect);
             groupBox3.Controls.Add(btn_disconnect);
             groupBox3.ForeColor = SystemColors.ControlLightLight;
             groupBox3.Location = new Point(12, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(180, 67);
+            groupBox3.Size = new Size(180, 107);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Connection";
@@ -264,7 +266,7 @@
             connectionStatus.AutoSize = true;
             connectionStatus.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             connectionStatus.ForeColor = Color.Red;
-            connectionStatus.Location = new Point(6, 48);
+            connectionStatus.Location = new Point(6, 83);
             connectionStatus.Name = "connectionStatus";
             connectionStatus.Size = new Size(83, 13);
             connectionStatus.TabIndex = 2;
@@ -276,7 +278,7 @@
             groupBox4.Controls.Add(tb_level);
             groupBox4.Controls.Add(btn_levelreload);
             groupBox4.ForeColor = SystemColors.ControlLightLight;
-            groupBox4.Location = new Point(12, 214);
+            groupBox4.Location = new Point(12, 249);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(180, 113);
             groupBox4.TabIndex = 10;
@@ -316,7 +318,7 @@
             groupBox5.Controls.Add(lv_logs);
             groupBox5.Controls.Add(btn_clearLogs);
             groupBox5.ForeColor = SystemColors.ControlLightLight;
-            groupBox5.Location = new Point(12, 333);
+            groupBox5.Location = new Point(12, 368);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(497, 208);
             groupBox5.TabIndex = 11;
@@ -408,7 +410,7 @@
             groupBox6.Controls.Add(tb_avatar);
             groupBox6.Controls.Add(btn_setAvatar);
             groupBox6.ForeColor = SystemColors.ControlLightLight;
-            groupBox6.Location = new Point(198, 231);
+            groupBox6.Location = new Point(198, 249);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(311, 45);
             groupBox6.TabIndex = 9;
@@ -443,7 +445,7 @@
             groupBox7.Controls.Add(tb_spawn);
             groupBox7.Controls.Add(btn_spawn);
             groupBox7.ForeColor = SystemColors.ControlLightLight;
-            groupBox7.Location = new Point(198, 282);
+            groupBox7.Location = new Point(198, 317);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(311, 45);
             groupBox7.TabIndex = 10;
@@ -478,18 +480,29 @@
             label_currentLevel.AutoSize = true;
             label_currentLevel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label_currentLevel.ForeColor = SystemColors.ControlLightLight;
-            label_currentLevel.Location = new Point(18, 198);
+            label_currentLevel.Location = new Point(18, 233);
             label_currentLevel.Name = "label_currentLevel";
             label_currentLevel.Size = new Size(133, 13);
             label_currentLevel.TabIndex = 12;
             label_currentLevel.Text = "Current Scene/Level: N/A";
+            // 
+            // tb_ipport
+            // 
+            tb_ipport.BackColor = SystemColors.ControlLight;
+            tb_ipport.BorderStyle = BorderStyle.FixedSingle;
+            tb_ipport.Location = new Point(6, 21);
+            tb_ipport.Name = "tb_ipport";
+            tb_ipport.PlaceholderText = "ws://IP:Port/console";
+            tb_ipport.Size = new Size(167, 23);
+            tb_ipport.TabIndex = 7;
+            tb_ipport.Text = "ws://localhost:50152/console";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(517, 553);
+            ClientSize = new Size(517, 588);
             Controls.Add(label_currentLevel);
             Controls.Add(groupBox7);
             Controls.Add(label_coordinates);
@@ -521,7 +534,7 @@
             PerformLayout();
         }
 
-        #endregion
+        #endregion Windows Form Designer generated code
 
         private Button btn_connect;
         private Button btn_disconnect;
@@ -534,10 +547,11 @@
         private GroupBox groupBox2;
         private GroupBox groupBox3;
         private GroupBox groupBox4;
+        private TextBox tb_ipport;
 
         private void btn_connect1(object sender, System.EventArgs e)
         {
-            DevMode.ConnectButton();
+            DevMode.ConnectButton(tb_ipport.Text);
         }
 
         private void btn_disconnect1(object sender, System.EventArgs e)

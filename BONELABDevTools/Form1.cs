@@ -398,5 +398,10 @@ namespace BonelabDevMode
             WARNING,
             ERROR
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
