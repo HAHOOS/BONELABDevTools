@@ -38,11 +38,16 @@
             btn_command = new Button();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            connectionStatus = new Label();
             groupBox4 = new GroupBox();
+            groupBox5 = new GroupBox();
+            btn_clearLogs = new Button();
+            logsListBox = new ListBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // btn_connect
@@ -61,6 +66,7 @@
             // btn_disconnect
             // 
             btn_disconnect.BackColor = SystemColors.ControlLight;
+            btn_disconnect.Enabled = false;
             btn_disconnect.FlatStyle = FlatStyle.Flat;
             btn_disconnect.ForeColor = SystemColors.ControlText;
             btn_disconnect.Location = new Point(93, 22);
@@ -78,7 +84,7 @@
             btn_levelreload.ForeColor = SystemColors.ControlText;
             btn_levelreload.Location = new Point(6, 22);
             btn_levelreload.Name = "btn_levelreload";
-            btn_levelreload.Size = new Size(167, 23);
+            btn_levelreload.Size = new Size(174, 23);
             btn_levelreload.TabIndex = 2;
             btn_levelreload.Text = "Reload Level";
             btn_levelreload.UseVisualStyleBackColor = false;
@@ -122,13 +128,12 @@
             groupBox1.Controls.Add(btn_command);
             groupBox1.Controls.Add(tb_command);
             groupBox1.ForeColor = SystemColors.ControlLightLight;
-            groupBox1.Location = new Point(198, 78);
+            groupBox1.Location = new Point(198, 90);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(311, 58);
+            groupBox1.Size = new Size(311, 67);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Command";
-            groupBox1.Enter += groupBox1_Enter;
             // 
             // btn_command
             // 
@@ -150,7 +155,7 @@
             groupBox2.ForeColor = SystemColors.ControlLightLight;
             groupBox2.Location = new Point(198, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(311, 60);
+            groupBox2.Size = new Size(311, 67);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "Pallet";
@@ -158,33 +163,85 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.Black;
+            groupBox3.Controls.Add(connectionStatus);
             groupBox3.Controls.Add(btn_connect);
             groupBox3.Controls.Add(btn_disconnect);
             groupBox3.ForeColor = SystemColors.ControlLightLight;
             groupBox3.Location = new Point(12, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(180, 60);
+            groupBox3.Size = new Size(180, 67);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Connection";
+            // 
+            // connectionStatus
+            // 
+            connectionStatus.AutoSize = true;
+            connectionStatus.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            connectionStatus.ForeColor = Color.Red;
+            connectionStatus.Location = new Point(6, 48);
+            connectionStatus.Name = "connectionStatus";
+            connectionStatus.Size = new Size(83, 13);
+            connectionStatus.TabIndex = 2;
+            connectionStatus.Text = "Not connected";
             // 
             // groupBox4
             // 
             groupBox4.Controls.Add(btn_levelreload);
             groupBox4.ForeColor = SystemColors.ControlLightLight;
-            groupBox4.Location = new Point(12, 78);
+            groupBox4.Location = new Point(12, 90);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(180, 58);
+            groupBox4.Size = new Size(186, 67);
             groupBox4.TabIndex = 10;
             groupBox4.TabStop = false;
             groupBox4.Text = "Level";
+            // 
+            // groupBox5
+            // 
+            groupBox5.BackColor = SystemColors.ActiveCaptionText;
+            groupBox5.Controls.Add(btn_clearLogs);
+            groupBox5.Controls.Add(logsListBox);
+            groupBox5.ForeColor = SystemColors.ControlLightLight;
+            groupBox5.Location = new Point(12, 163);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(497, 167);
+            groupBox5.TabIndex = 11;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Logs";
+            // 
+            // btn_clearLogs
+            // 
+            btn_clearLogs.BackColor = SystemColors.ControlLight;
+            btn_clearLogs.FlatStyle = FlatStyle.Flat;
+            btn_clearLogs.ForeColor = SystemColors.ControlText;
+            btn_clearLogs.Location = new Point(6, 138);
+            btn_clearLogs.Name = "btn_clearLogs";
+            btn_clearLogs.Size = new Size(481, 23);
+            btn_clearLogs.TabIndex = 9;
+            btn_clearLogs.Text = "Clear";
+            btn_clearLogs.UseVisualStyleBackColor = false;
+            btn_clearLogs.Click += btn_clearLogs1;
+            // 
+            // logsListBox
+            // 
+            logsListBox.CausesValidation = false;
+            logsListBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            logsListBox.FormattingEnabled = true;
+            logsListBox.HorizontalScrollbar = true;
+            logsListBox.ItemHeight = 13;
+            logsListBox.Location = new Point(6, 22);
+            logsListBox.Name = "logsListBox";
+            logsListBox.SelectionMode = SelectionMode.None;
+            logsListBox.Size = new Size(481, 108);
+            logsListBox.TabIndex = 0;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(526, 155);
+            ClientSize = new Size(517, 342);
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -197,7 +254,9 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -238,5 +297,15 @@
         {
             DevMode.SendCommand(tb_command.Text);
         }
+
+        private void btn_clearLogs1(object sender, System.EventArgs e)
+        {
+            logsListBox.Items.Clear();
+        }
+
+        private Label connectionStatus;
+        private GroupBox groupBox5;
+        private ListBox logsListBox;
+        private Button btn_clearLogs;
     }
 }
