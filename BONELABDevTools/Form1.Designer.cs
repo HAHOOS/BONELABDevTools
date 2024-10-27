@@ -480,9 +480,9 @@
             label_currentLevel.ForeColor = SystemColors.ControlLightLight;
             label_currentLevel.Location = new Point(18, 198);
             label_currentLevel.Name = "label_currentLevel";
-            label_currentLevel.Size = new Size(99, 13);
+            label_currentLevel.Size = new Size(133, 13);
             label_currentLevel.TabIndex = 12;
-            label_currentLevel.Text = "Current Level: N/A";
+            label_currentLevel.Text = "Current Scene/Level: N/A";
             // 
             // Form1
             // 
