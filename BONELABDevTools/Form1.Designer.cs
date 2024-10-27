@@ -115,6 +115,11 @@
             // 
             // tb_command
             // 
+            AutoCompleteStringCollection suggestions = new AutoCompleteStringCollection();
+            suggestions.AddRange(new string[] { "assetwarehouse.reload", "help", "aw.load", "assetwarehouse.load", "aw.reload", "assetwarehouse.unload", "spawn", "level.reload", "avatar", "aw.unload", "repo.add", "repo.del", "repo.delete", "repo.list", "save", "scene.list", "level", "teleport", "whereami" });
+            tb_command.AutoCompleteCustomSource = suggestions;
+            tb_command.AutoCompleteMode = AutoCompleteMode.Suggest;
+            tb_command.AutoCompleteSource = AutoCompleteSource.CustomSource;
             tb_command.BackColor = SystemColors.ControlLight;
             tb_command.BorderStyle = BorderStyle.FixedSingle;
             tb_command.Location = new Point(6, 22);
