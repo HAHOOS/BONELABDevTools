@@ -24,7 +24,7 @@ These are all the commands that DevMode lists when entering the `help` command t
 
 `spawn` (barcode) - Spawn a spawnable
 
-`teleport` (x) (y) (z) - Teleport to provided coordinates
+`teleport` (Position_X) (Position_Y) (Position_Z) (Rotation_X) (Rotation_Y) (Rotation_Z)  - Teleport to provided coordinates
 
 `whereami` - Display current coordinates
 
