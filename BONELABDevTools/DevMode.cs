@@ -95,7 +95,7 @@ namespace BonelabDevMode
             timer.Start();
         }
 
-        public static void ConnectButton()
+        public static void ConnectButton(string ipppath)
         {
             Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.CONNECTING);
             state = WebSocketConnectionState.CONNECTING;
@@ -109,7 +109,7 @@ namespace BonelabDevMode
             try
             {
                 Form1.Instance?.AddLog("Connecting...");
-                websocket = new WebSocketSharp.WebSocket(path);
+                websocket = new WebSocketSharp.WebSocket(ipppath);
                 events = new WebSocketEvents(websocket);
                 events.OnLateMessage += (sender, e) => { if (!DontLog.Contains(e.MessageID)) Form1.Instance?.AddLog($"[WEBSOCKET] {e.EventArgs.Data}"); };
                 events.OnMessage += UpdateCurrentLevel_HideMessages;
