@@ -58,6 +58,7 @@ namespace BonelabDevMode
 
         internal void UpdateAutoComplete(bool autoCompleteBarcodes = true)
         {
+            DevMode.Update = false;
             if (autoCompleteBarcodes)
             {
                 AddLog("Updating barcode suggestions");
@@ -66,6 +67,7 @@ namespace BonelabDevMode
                 if (roaming_parent == null)
                 {
                     AddLog("Roaming folder does not have a parent!", LogType.ERROR);
+                    DevMode.Update = true;
                     return;
                 }
                 var locallow = Path.Combine(roaming_parent, "LocalLow");
@@ -205,6 +207,7 @@ namespace BonelabDevMode
                 tb_spawn.AutoCompleteCustomSource = null;
                 AddLog("Removed auto-complete from Spawn text box");
             }
+            DevMode.Update = true;
         }
 
         internal void CheckBox_autoCompleteBarcodes_CheckedChanged(object sender, EventArgs e)

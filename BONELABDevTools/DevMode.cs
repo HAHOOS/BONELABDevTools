@@ -19,8 +19,11 @@ namespace BonelabDevMode
 
         public static List<int> DontLog = [];
 
+        public static bool Update = true;
+
         public static void UpdateCoordinates()
         {
+            Update = true;
             var timer = new System.Timers.Timer();
             timer.Elapsed += (s, e) =>
             {
@@ -29,6 +32,9 @@ namespace BonelabDevMode
                     timer.Stop();
                     return;
                 }
+
+                if (!Update) return;
+
                 // HACK: Couldn't in any other way use the _event variable inside the eventhandler action
                 EventHandler<CustomMessageEventArgs>? _event = null;
                 _event = (sender, msg) =>
@@ -43,13 +49,14 @@ namespace BonelabDevMode
                 events.OnMessage += _event;
                 websocket.Send("whereami");
             };
-            timer.Interval = 100;
+            timer.Interval = 175;
             timer.AutoReset = true;
             timer.Start();
         }
 
         public static void UpdateCurrentLevel()
         {
+            Update = true;
             var timer = new System.Timers.Timer();
             timer.Elapsed += (s, e) =>
             {
@@ -58,6 +65,8 @@ namespace BonelabDevMode
                     timer.Stop();
                     return;
                 }
+
+                if (!Update) return;
 
                 // HACK: Couldn't in any other way use the _event variable inside the eventhandler action
                 EventHandler<CustomMessageEventArgs>? _event = null;
