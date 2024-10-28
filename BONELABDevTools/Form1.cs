@@ -297,7 +297,7 @@ namespace BonelabDevMode
 
         internal void UpdateCurrentLevel(string levelName, ref WebSocketEvents? webSocketEvents, ref EventHandler<CustomMessageEventArgs>? _event)
         {
-            label_currentLevel.Invoke(() => label_currentLevel.Text = "Current Level: " + levelName);
+            label_currentLevel.Invoke(() => label_currentLevel.Text = "Current Scene/Level: " + levelName);
             if (_event != null && webSocketEvents != null) webSocketEvents.OnMessage -= _event;
         }
 
