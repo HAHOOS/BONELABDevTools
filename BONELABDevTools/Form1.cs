@@ -24,7 +24,7 @@ namespace BonelabDevMode
 
             int count = 0;
 
-            System.Timers.Timer timer = new System.Timers.Timer();
+            System.Timers.Timer timer = new();
             timer.Elapsed += (x, y) =>
             {
                 if (lv_logs.Items != null && lv_logs.Items.Count > 0 && lv_logs.Items.Count != count)
@@ -271,13 +271,13 @@ namespace BonelabDevMode
             });
         }
 
-        internal void LabelText(Label label, string text)
+        internal static void LabelText(Label label, string text)
         {
             if (label.InvokeRequired) label.Invoke(() => label.Text = text);
             else label.Text = text;
         }
 
-        internal void LabelForeColor(Label label, Color color)
+        internal static void LabelForeColor(Label label, Color color)
         {
             if (label.InvokeRequired) label.Invoke(() => label.ForeColor = color);
             else label.ForeColor = color;
@@ -286,7 +286,7 @@ namespace BonelabDevMode
         internal void SetStatus(string message, Color color)
         {
             LabelText(connectionStatus, message);
-            connectionStatus.ForeColor = color;
+            LabelForeColor(connectionStatus, color);
         }
 
         internal void UpdateCoordinates(string coordinates, ref WebSocketEvents? webSocketEvents, ref EventHandler<CustomMessageEventArgs>? _event)
@@ -301,7 +301,7 @@ namespace BonelabDevMode
             if (_event != null && webSocketEvents != null) webSocketEvents.OnMessage -= _event;
         }
 
-        internal void SetButtonEnabled(Button btn, bool enabled)
+        internal static void SetButtonEnabled(Button btn, bool enabled)
         {
             if (btn.InvokeRequired) btn.Invoke(() => btn.Enabled = enabled);
             else btn.Enabled = enabled;
