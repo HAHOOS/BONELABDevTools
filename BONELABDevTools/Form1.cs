@@ -27,7 +27,7 @@ namespace BonelabDevMode
             System.Timers.Timer timer = new();
             timer.Elapsed += (x, y) =>
             {
-                if (lv_logs.Items != null && lv_logs.Items.Count > 0 && lv_logs.Items.Count != count)
+                if (lv_logs.Items?.Count > 0 && lv_logs.Items.Count != count)
                 {
                     count = lv_logs.Items.Count;
                     lv_logs.Invoke(() => lv_logs.Items[^1].EnsureVisible());
@@ -74,7 +74,7 @@ namespace BonelabDevMode
             }
             else if (pallet.version == 1)
             {
-                if (pallet.types != null && pallet.types.Count > 0)
+                if (pallet.types?.Count > 0)
                 {
                     foreach (var type in pallet.types)
                     {
@@ -108,7 +108,7 @@ namespace BonelabDevMode
 
             // Check if object matches any of the types
 
-            var _type = types.Where(x => x.Key == obj.isa.type).FirstOrDefault();
+            var _type = types.FirstOrDefault(x => x.Key == obj.isa.type);
             if (_type.Key != null)
             {
                 BarcodesFound.Add(obj.barcode, _type.Value);
@@ -150,9 +150,9 @@ namespace BonelabDevMode
                     {
                         try
                         {
-                            if (mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json").Any())
+                            if (mod.GetFiles().Any(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json"))
                             {
-                                var palletFile = mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json").First();
+                                var palletFile = mod.GetFiles().First(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json");
                                 var json = JsonConvert.DeserializeObject<Pallet>(File.ReadAllText(palletFile.FullName)) ?? throw new JsonException("JSON format was invalid!");
                                 foreach (var item in json.objects)
                                 {
@@ -163,9 +163,9 @@ namespace BonelabDevMode
                                     if (return_.success && return_.type != null)
                                     {
                                         BarcodeType bType = (BarcodeType)return_.type;
-                                        if (results.ContainsKey(bType))
+                                        if (results.TryGetValue(bType, out int value))
                                         {
-                                            results[bType] += 1;
+                                            results[bType] = ++value;
                                         }
                                         else
                                         {
@@ -204,29 +204,43 @@ namespace BonelabDevMode
 
                     SetAutoComplete(ref tb_command, "Command", (barcode, type) =>
                     {
-                        if (type == BarcodeType.AVATAR) return (true, [$"avatar {barcode}"]);
-                        else if (type == BarcodeType.SPAWNABLE) return (true, [$"spawn {barcode}"]);
-                        else if (type == BarcodeType.LEVEL) return (true, [$"level {barcode}"]);
-                        else if (type == BarcodeType.PALLET) return (true,
-                            (cb_optimizeAutoComplete.Checked
+                        if (type == BarcodeType.AVATAR)
+                        {
+                            return (true, [$"avatar {barcode}"]);
+                        }
+                        else if (type == BarcodeType.SPAWNABLE)
+                        {
+                            return (true, [$"spawn {barcode}"]);
+                        }
+                        else if (type == BarcodeType.LEVEL)
+                        {
+                            return (true, [$"level {barcode}"]);
+                        }
+                        else if (type == BarcodeType.PALLET)
+                        {
+                            return (true,
+                                    cb_optimizeAutoComplete.Checked
+                                    ?
 
-                            ?
-
-                            [
-                                $"aw.load {barcode}",
-                                $"aw.unload {barcode}",
-                                $"aw.reload {barcode}",
-                            ]
-                            :
-                            [
-                                $"aw.load {barcode}",
-                                $"aw.unload {barcode}",
-                                $"aw.reload {barcode}",
-                                $"assetwarehouse.load {barcode}",
-                                $"assetwarehouse.load {barcode}",
-                                $"assetwarehouse.unload {barcode}",
-                            ]));
-                        else return (false, [barcode]);
+                                        [
+                                        $"aw.load {barcode}",
+                                        $"aw.unload {barcode}",
+                                        $"aw.reload {barcode}",
+                                        ]
+                                    :
+                                        [
+                                        $"aw.load {barcode}",
+                                        $"aw.unload {barcode}",
+                                        $"aw.reload {barcode}",
+                                        $"assetwarehouse.load {barcode}",
+                                        $"assetwarehouse.load {barcode}",
+                                        $"assetwarehouse.unload {barcode}",
+                                        ]);
+                        }
+                        else
+                        {
+                            return (false, [barcode]);
+                        }
                     }, acsc_cmd);
 
                     #endregion Cmd
@@ -328,7 +342,10 @@ namespace BonelabDevMode
             else _AddLog(message, logType, backColor, foregroundColor);
         }
 
+#pragma warning disable IDE1006 // Naming Styles
+
         internal void _AddLog(string message, LogType logType = LogType.MESSAGE, Color? backColor = null, Color? foregroundColor = null)
+#pragma warning restore IDE1006 // Naming Styles
         {
             var item = new ListViewItem($"[{DateTime.Now:T}] [{logType}] {message}");
 

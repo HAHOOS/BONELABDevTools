@@ -6,7 +6,7 @@ using static BonelabDevMode.Form1;
 
 namespace BonelabDevMode
 {
-    internal class DevMode
+    internal static class DevMode
     {
         private static WebSocketSharp.WebSocket? websocket;
         public static WebSocketConnectionState state;
@@ -39,7 +39,7 @@ namespace BonelabDevMode
                 EventHandler<CustomMessageEventArgs>? _event = null;
                 _event = (sender, msg) =>
                 {
-                    if (msg.EventArgs != null && msg.EventArgs.Data != null && msg.EventArgs.Data.StartsWith("whereami: teleport"))
+                    if (msg.EventArgs != null && msg.EventArgs.Data?.StartsWith("whereami: teleport") == true)
                     {
                         var coordinates = msg.EventArgs.Data.Replace("whereami: teleport ", string.Empty);
                         DontLog.Add(msg.MessageID);
@@ -73,7 +73,10 @@ namespace BonelabDevMode
                 bool awaitNext = false;
                 _event = (sender, msg) =>
                 {
-                    if (msg.EventArgs.Data == "Active Scene") awaitNext = true;
+                    if (msg.EventArgs.Data == "Active Scene")
+                    {
+                        awaitNext = true;
+                    }
                     else
                     {
                         if (IsSceneSchemaValid(msg.EventArgs.Data) && awaitNext)
@@ -118,7 +121,7 @@ namespace BonelabDevMode
                 {
                     Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.CONNECTED);
                     state = WebSocketConnectionState.CONNECTED;
-                    Form1.Instance?.AddLog($"[WEBSOCKET] Successfully connected!");
+                    Form1.Instance?.AddLog("[WEBSOCKET] Successfully connected!");
                     UpdateCurrentLevel();
                     UpdateCoordinates();
                 };
@@ -127,7 +130,7 @@ namespace BonelabDevMode
                 {
                     Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.DISCONNECTED);
                     state = WebSocketConnectionState.DISCONNECTED;
-                    Form1.Instance?.AddLog($"[WEBSOCKET] WebSocket closed/disconnected");
+                    Form1.Instance?.AddLog("[WEBSOCKET] WebSocket closed/disconnected");
                 };
 
                 websocket.Connect();
@@ -197,20 +200,6 @@ namespace BonelabDevMode
                 Form1.Instance?.SetEnabledState(WebSocketConnectionState.DISCONNECTED);
                 state = WebSocketConnectionState.DISCONNECTED;
             }
-        }
-
-        public static void ReloadLevel()
-        {
-            lastCommand = "level.reload";
-            lastCommand_ExecutionDate = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            websocket?.Send($"level.reload");
-        }
-
-        public static void ReloadPallet(string palletBarcode)
-        {
-            lastCommand = "assetwarehouse.reload " + palletBarcode;
-            lastCommand_ExecutionDate = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            websocket?.Send($"assetwarehouse.reload {palletBarcode}");
         }
 
         public static void SendCommand(string command)

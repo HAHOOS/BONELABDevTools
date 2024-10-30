@@ -601,12 +601,12 @@
         }
         private void btn_levelreload1(object sender, System.EventArgs e)
         {
-            DevMode.ReloadLevel();
+            DevMode.SendCommand($"level.reload");
         }
 
         private void btn_reloadpallet1(object sender, System.EventArgs e)
         {
-            DevMode.ReloadPallet(tb_pallet.Text);
+            DevMode.SendCommand($"aw.reload {tb_pallet.Text}");
         }
 
         private void btn_loadpallet1(object sender, System.EventArgs e)

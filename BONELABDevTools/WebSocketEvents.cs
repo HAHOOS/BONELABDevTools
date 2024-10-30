@@ -6,7 +6,7 @@ namespace BonelabDevMode
     {
         internal WebSocket webSocket;
 
-        public int MessageID = 0;
+        public int MessageID;
 
         public event EventHandler<CustomMessageEventArgs> OnLateMessage;
 
@@ -30,8 +30,8 @@ namespace BonelabDevMode
 
     public class CustomMessageEventArgs(MessageEventArgs args, int messageID) : EventArgs
     {
-        public int MessageID { get; private set; } = messageID;
+        public int MessageID { get; } = messageID;
 
-        public MessageEventArgs EventArgs { get; private set; } = args;
+        public MessageEventArgs EventArgs { get; } = args;
     }
 }

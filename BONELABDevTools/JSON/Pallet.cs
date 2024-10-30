@@ -4,7 +4,7 @@
     {
         public int version;
         public required Dictionary<string, PalletObject> objects;
-        public Dictionary<string, Type> types;
+        public Dictionary<string, Type>? types;
     }
 
     public class PalletObject
@@ -23,7 +23,7 @@
 
     public class Type
     {
-        public string type;
-        public string fullname;
+        public required string type;
+        public required string fullname;
     }
 }
