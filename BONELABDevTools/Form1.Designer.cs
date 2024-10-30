@@ -43,6 +43,7 @@
             btn_unloadpallet = new Button();
             btn_loadpallet = new Button();
             groupBox3 = new GroupBox();
+            tb_ipport = new TextBox();
             connectionStatus = new Label();
             groupBox4 = new GroupBox();
             btn_loadLevel = new Button();
@@ -61,7 +62,6 @@
             tb_spawn = new TextBox();
             btn_spawn = new Button();
             label_currentLevel = new Label();
-            tb_ipport = new TextBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -260,6 +260,17 @@
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Connection";
+            // 
+            // tb_ipport
+            // 
+            tb_ipport.BackColor = SystemColors.ControlLight;
+            tb_ipport.BorderStyle = BorderStyle.FixedSingle;
+            tb_ipport.Location = new Point(6, 21);
+            tb_ipport.Name = "tb_ipport";
+            tb_ipport.PlaceholderText = "ws://IP:Port/console";
+            tb_ipport.Size = new Size(167, 23);
+            tb_ipport.TabIndex = 7;
+            tb_ipport.Text = "ws://localhost:50152/console";
             // 
             // connectionStatus
             // 
@@ -485,17 +496,6 @@
             label_currentLevel.Size = new Size(133, 13);
             label_currentLevel.TabIndex = 12;
             label_currentLevel.Text = "Current Scene/Level: N/A";
-            // 
-            // tb_ipport
-            // 
-            tb_ipport.BackColor = SystemColors.ControlLight;
-            tb_ipport.BorderStyle = BorderStyle.FixedSingle;
-            tb_ipport.Location = new Point(6, 21);
-            tb_ipport.Name = "tb_ipport";
-            tb_ipport.PlaceholderText = "ws://IP:Port/console";
-            tb_ipport.Size = new Size(167, 23);
-            tb_ipport.TabIndex = 7;
-            tb_ipport.Text = "ws://localhost:50152/console";
             // 
             // Form1
             // 
