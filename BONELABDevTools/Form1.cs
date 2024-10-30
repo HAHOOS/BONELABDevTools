@@ -17,7 +17,7 @@ namespace BonelabDevMode
         {
             InitializeComponent();
             Instance = this;
-            lv_logs.Columns.Add(new ColumnHeader { Width = lv_logs.ClientSize.Width * 5 });
+            lv_logs.Columns.Add(new ColumnHeader { Width = lv_logs.Width * 5 });
             SetEnabledState(WebSocketConnectionState.DISCONNECTED);
 
             // Auto scroll for ListView
@@ -56,6 +56,72 @@ namespace BonelabDevMode
             AddLog($"Added {acsc.Count} to {name} text box auto-complete");
         }
 
+        internal (bool success, BarcodeType? type) DetermineBarcodeType(Pallet pallet, PalletObject obj)
+        {
+            Dictionary<string, BarcodeType> types = [];
+
+            // Add types
+
+            if (pallet.version == 2)
+            {
+                types = new Dictionary<string, BarcodeType>()
+                {
+                    {"pallet#0", BarcodeType.PALLET },
+                    {"crate-level#0", BarcodeType.LEVEL },
+                    {"crate-avatar#0", BarcodeType.AVATAR },
+                    {"crate-spawnable#0", BarcodeType.SPAWNABLE },
+                };
+            }
+            else if (pallet.version == 1)
+            {
+                if (pallet.types != null && pallet.types.Count > 0)
+                {
+                    foreach (var type in pallet.types)
+                    {
+                        if (type.Value.fullname.StartsWith("SLZ.Marrow.Warehouse.Pallet"))
+                        {
+                            types.Add(type.Value.type, BarcodeType.PALLET);
+                        }
+                        else if (type.Value.fullname.StartsWith("SLZ.Marrow.Warehouse.AvatarCrate"))
+                        {
+                            types.Add(type.Value.type, BarcodeType.AVATAR);
+                        }
+                        else if (type.Value.fullname.StartsWith("SLZ.Marrow.Warehouse.SpawnableCrate"))
+                        {
+                            types.Add(type.Value.type, BarcodeType.SPAWNABLE);
+                        }
+                        else if (type.Value.fullname.StartsWith("SLZ.Marrow.Warehouse.LevelCrate"))
+                        {
+                            types.Add(type.Value.type, BarcodeType.LEVEL);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("There are no declared types!");
+                }
+            }
+            else
+            {
+                throw new Exception("Unsupported pallet.json version!");
+            }
+
+            // Check if object matches any of the types
+
+            var _type = types.Where(x => x.Key == obj.isa.type).FirstOrDefault();
+            if (_type.Key != null)
+            {
+                BarcodesFound.Add(obj.barcode, _type.Value);
+                AddLog($"{obj.barcode} ({obj.title}) is a{(_type.Value == BarcodeType.AVATAR ? "n" : string.Empty)} {_type.Value}", LogType.DEBUG);
+                return (true, _type.Value);
+            }
+            else
+            {
+                AddLog("Object has an unsupported type, but this will be ignored", LogType.WARNING);
+                return (true, null);
+            }
+        }
+
         internal void UpdateAutoComplete(bool autoCompleteBarcodes = true)
         {
             DevMode.Update = false;
@@ -79,44 +145,32 @@ namespace BonelabDevMode
                     int success = 0;
                     int fail = 0;
                     AddLog("Retrieving all barcodes");
+                    Dictionary<BarcodeType, int> results = [];
                     foreach (var mod in mods.GetDirectories())
                     {
                         try
                         {
-                            if (mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json").Any())
+                            if (mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json").Any())
                             {
-                                var palletFile = mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json").First();
+                                var palletFile = mod.GetFiles().Where(x => x.Name == $"{mod.Name}.pallet.json" || x.Name == "pallet.json").First();
                                 var json = JsonConvert.DeserializeObject<Pallet>(File.ReadAllText(palletFile.FullName)) ?? throw new JsonException("JSON format was invalid!");
                                 foreach (var item in json.objects)
                                 {
-                                    if (item.Value.isa.type == "crate-spawnable#0")
+                                    var return_ = DetermineBarcodeType(json, item.Value);
+                                    if (return_.success) success++;
+                                    else fail++;
+
+                                    if (return_.success && return_.type != null)
                                     {
-                                        BarcodesFound.Add(item.Value.barcode, BarcodeType.SPAWNABLE);
-                                        AddLog($"{item.Value.barcode} ({item.Value.title}): Spawnable", LogType.DEBUG);
-                                        success++;
-                                    }
-                                    else if (item.Value.isa.type == "crate-level#0")
-                                    {
-                                        BarcodesFound.Add(item.Value.barcode, BarcodeType.LEVEL);
-                                        AddLog($"{item.Value.barcode} ({item.Value.title}): Level", LogType.DEBUG);
-                                        success++;
-                                    }
-                                    else if (item.Value.isa.type == "crate-avatar#0")
-                                    {
-                                        BarcodesFound.Add(item.Value.barcode, BarcodeType.AVATAR);
-                                        AddLog($"{item.Value.barcode} ({item.Value.title}): Avatar", LogType.DEBUG);
-                                        success++;
-                                    }
-                                    else if (item.Value.isa.type == "pallet#0")
-                                    {
-                                        BarcodesFound.Add(item.Value.barcode, BarcodeType.PALLET);
-                                        AddLog($"{item.Value.barcode} ({item.Value.title}): Pallet", LogType.DEBUG);
-                                        success++;
-                                    }
-                                    else
-                                    {
-                                        AddLog($"{item.Value.barcode} ({item.Value.title}) has an unrecognized type, still will not be treated as a fail", LogType.WARNING);
-                                        //fail++;
+                                        BarcodeType bType = (BarcodeType)return_.type;
+                                        if (results.ContainsKey(bType))
+                                        {
+                                            results[bType] += 1;
+                                        }
+                                        else
+                                        {
+                                            results[bType] = 1;
+                                        }
                                     }
                                 }
                             }
@@ -127,7 +181,11 @@ namespace BonelabDevMode
                             fail++;
                         }
                     }
-                    AddLog($"Successfully retrieved {success} barcode(s) with {fail} fail(s)");
+                    AddLog($"Successfully retrieved {success} barcode(s) with {fail} fail(s):");
+                    foreach (var result in results)
+                    {
+                        AddLog($"{result.Key}: {result.Value} found");
+                    }
                     AddLog("Adding barcodes to auto-complete");
 
                     #region Pallet
