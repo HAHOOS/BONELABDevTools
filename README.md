@@ -30,9 +30,7 @@ These are all the commands that DevMode lists when entering the `help` command t
 
 `repo.list` - List mod repos
 
-**NOTE: The commands listed below were not tested (or there was an attempt to test them, but could not accurately tell the syntax) and the syntax could be different than listed**
+`repo.add` (url, example: http://example.com/path/to/your/repository.json) - Add a mod repo
 
-`repo.del` (url) / `repo.delete` (url) - Delete a mod repo
-
-`repo.add` (url) - Add a mod repo
+`repo.del` (url, example: http://example.com/path/to/your/repository.json) / `repo.delete` (url, example: http://example.com/path/to/your/repository.json) - Delete a mod repo
 
