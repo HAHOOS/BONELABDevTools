@@ -305,28 +305,32 @@ namespace BonelabDevMode
 
         internal void AddLog(string message, LogType logType = LogType.MESSAGE, Color? backColor = null, Color? foregroundColor = null)
         {
-            lv_logs.Invoke(() =>
+            var action = (Action<string, LogType, Color?, Color?>)_AddLog;
+            if (lv_logs.InvokeRequired) lv_logs.Invoke(action, message, logType, backColor, foregroundColor);
+            else _AddLog(message, logType, backColor, foregroundColor);
+        }
+
+        internal void _AddLog(string message, LogType logType = LogType.MESSAGE, Color? backColor = null, Color? foregroundColor = null)
+        {
+            var item = new ListViewItem($"[{DateTime.Now:T}] [{logType}] {message}");
+
+            if (backColor != null)
             {
-                var item = new ListViewItem($"[{DateTime.Now:T}] [{logType}] {message}");
+                item.BackColor = (Color)backColor;
+            }
 
-                if (backColor != null)
-                {
-                    item.BackColor = (Color)backColor;
-                }
+            if (foregroundColor != null)
+            {
+                item.ForeColor = (Color)foregroundColor;
+            }
+            else if (logType != LogType.MESSAGE && logType != LogType.DEBUG)
+            {
+                item.ForeColor = (logType == LogType.WARNING ? Color.Yellow : Color.Red);
+            }
 
-                if (foregroundColor != null)
-                {
-                    item.ForeColor = (Color)foregroundColor;
-                }
-                else if (logType != LogType.MESSAGE && logType != LogType.DEBUG)
-                {
-                    item.ForeColor = (logType == LogType.WARNING ? Color.Yellow : Color.Red);
-                }
+            if (CanShow(item.Text)) item = lv_logs.Items.Add(item);
 
-                if (CanShow(item.Text)) item = lv_logs.Items.Add(item);
-
-                AllLogs.Add((ListViewItem)item.Clone());
-            });
+            AllLogs.Add((ListViewItem)item.Clone());
         }
 
         internal static void LabelText(Label label, string text)
@@ -349,14 +353,24 @@ namespace BonelabDevMode
 
         internal void UpdateCoordinates(string coordinates, ref WebSocketEvents? webSocketEvents, ref EventHandler<CustomMessageEventArgs>? _event)
         {
-            label_coordinates.Invoke(() => label_coordinates.Text = "Player Coordinates: " + coordinates);
+            LabelText(label_coordinates, "Player Coordinates: " + coordinates);
             if (_event != null && webSocketEvents != null) webSocketEvents.OnMessage -= _event;
         }
 
         internal void UpdateCurrentLevel(string levelName, ref WebSocketEvents? webSocketEvents, ref EventHandler<CustomMessageEventArgs>? _event)
         {
-            label_currentLevel.Invoke(() => label_currentLevel.Text = "Current Scene/Level: " + levelName);
+            LabelText(label_currentLevel, "Current Scene/Level: " + levelName);
             if (_event != null && webSocketEvents != null) webSocketEvents.OnMessage -= _event;
+        }
+
+        internal void UpdateCoordinates(string coordinates)
+        {
+            LabelText(label_coordinates, "Player Coordinates: " + coordinates);
+        }
+
+        internal void UpdateCurrentLevel(string levelName)
+        {
+            LabelText(label_currentLevel, "Current Scene/Level: " + levelName);
         }
 
         internal static void SetButtonEnabled(Button btn, bool enabled)
@@ -390,6 +404,8 @@ namespace BonelabDevMode
                     SetCmdButtonState(false);
 
                     SetStatus("Connecting...", Color.Yellow);
+                    UpdateCoordinates("N/A");
+                    UpdateCurrentLevel("N/A");
 
                     break;
 
@@ -399,6 +415,8 @@ namespace BonelabDevMode
                     SetCmdButtonState(false);
 
                     SetStatus("Disconnecting...", Color.Yellow);
+                    UpdateCoordinates("N/A");
+                    UpdateCurrentLevel("N/A");
 
                     break;
 
@@ -417,6 +435,8 @@ namespace BonelabDevMode
                     SetCmdButtonState(false);
 
                     SetStatus("Disconnected!", Color.Red);
+                    UpdateCoordinates("N/A");
+                    UpdateCurrentLevel("N/A");
 
                     break;
             }
