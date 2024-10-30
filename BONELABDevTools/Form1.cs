@@ -7,11 +7,11 @@ namespace BonelabDevMode
     {
         internal static Form1? Instance;
 
-        internal static Dictionary<string, BarcodeType> BarcodesFound = [];
+        internal readonly static Dictionary<string, BarcodeType> BarcodesFound = [];
 
-        internal static string[] DefaultCmdAutoComplete = ["assetwarehouse.reload", "help", "aw.load", "assetwarehouse.load", "aw.reload", "assetwarehouse.unload", "spawn", "level.reload", "avatar", "aw.unload", "repo.add", "repo.del", "repo.delete", "repo.list", "save", "scene.list", "level", "teleport", "whereami"];
+        internal readonly static string[] DefaultCmdAutoComplete = ["assetwarehouse.reload", "help", "aw.load", "assetwarehouse.load", "aw.reload", "assetwarehouse.unload", "spawn", "level.reload", "avatar", "aw.unload", "repo.add", "repo.del", "repo.delete", "repo.list", "save", "scene.list", "level", "teleport", "whereami"];
 
-        internal static List<ListViewItem> AllLogs = [];
+        internal readonly static List<ListViewItem> AllLogs = [];
 
         public Form1()
         {
@@ -322,15 +322,9 @@ namespace BonelabDevMode
         internal void Filter(object sender, EventArgs e)
         {
             List<ListViewItem> items = [];
-
-            foreach (ListViewItem item in AllLogs)
-            {
-                if (CanShow(item.Text))
-                {
-                    items.Add((ListViewItem)item.Clone());
-                }
-            }
-
+            items.AddRange(from ListViewItem item in AllLogs
+                           where CanShow(item.Text)
+                           select (ListViewItem)item.Clone());
             lv_logs.Items.Clear();
             lv_logs.Items.AddRange([.. items]);
         }
