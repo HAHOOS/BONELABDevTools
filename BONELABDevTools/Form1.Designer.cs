@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btn_connect = new Button();
             btn_disconnect = new Button();
             btn_levelreload = new Button();
@@ -35,6 +36,7 @@
             tb_pallet = new TextBox();
             tb_command = new TextBox();
             groupBox1 = new GroupBox();
+            cb_optimizeAutoComplete = new CheckBox();
             btn_updateAC = new Button();
             checkBox_autoCompleteBarcodes = new CheckBox();
             btn_command = new Button();
@@ -63,6 +65,7 @@
             btn_spawn = new Button();
             label_currentLevel = new Label();
             versionLabel = new Label();
+            optimizeToolTip = new ToolTip(components);
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -147,6 +150,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(cb_optimizeAutoComplete);
             groupBox1.Controls.Add(btn_updateAC);
             groupBox1.Controls.Add(checkBox_autoCompleteBarcodes);
             groupBox1.Controls.Add(btn_command);
@@ -159,14 +163,28 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Command";
             // 
+            // cb_optimizeAutoComplete
+            // 
+            cb_optimizeAutoComplete.AutoSize = true;
+            cb_optimizeAutoComplete.Checked = true;
+            cb_optimizeAutoComplete.CheckState = CheckState.Checked;
+            cb_optimizeAutoComplete.Location = new Point(168, 58);
+            cb_optimizeAutoComplete.Name = "cb_optimizeAutoComplete";
+            cb_optimizeAutoComplete.Size = new Size(156, 19);
+            cb_optimizeAutoComplete.TabIndex = 12;
+            cb_optimizeAutoComplete.Text = "Optimize auto-complete";
+            optimizeToolTip.SetToolTip(cb_optimizeAutoComplete, "This will remove barcode auto-complete for commands like \"assetwarehouse.load\" and only do it in the short form \"aw.load\".\r\n");
+            cb_optimizeAutoComplete.UseVisualStyleBackColor = true;
+            cb_optimizeAutoComplete.CheckedChanged += Cb_optimizeAutoComplete_CheckedChanged;
+            // 
             // btn_updateAC
             // 
             btn_updateAC.BackColor = SystemColors.ControlLight;
             btn_updateAC.FlatStyle = FlatStyle.Flat;
             btn_updateAC.ForeColor = SystemColors.ControlText;
-            btn_updateAC.Location = new Point(168, 52);
+            btn_updateAC.Location = new Point(347, 52);
             btn_updateAC.Name = "btn_updateAC";
-            btn_updateAC.Size = new Size(319, 28);
+            btn_updateAC.Size = new Size(140, 28);
             btn_updateAC.TabIndex = 11;
             btn_updateAC.Text = "Update auto-complete";
             btn_updateAC.UseVisualStyleBackColor = false;
@@ -175,6 +193,8 @@
             // checkBox_autoCompleteBarcodes
             // 
             checkBox_autoCompleteBarcodes.AutoSize = true;
+            checkBox_autoCompleteBarcodes.Checked = true;
+            checkBox_autoCompleteBarcodes.CheckState = CheckState.Checked;
             checkBox_autoCompleteBarcodes.Location = new Point(6, 58);
             checkBox_autoCompleteBarcodes.Name = "checkBox_autoCompleteBarcodes";
             checkBox_autoCompleteBarcodes.Size = new Size(156, 19);
@@ -508,6 +528,15 @@
             versionLabel.TabIndex = 13;
             versionLabel.Text = "v3.0";
             // 
+            // optimizeToolTip
+            // 
+            optimizeToolTip.AutomaticDelay = 300;
+            optimizeToolTip.AutoPopDelay = 300000000;
+            optimizeToolTip.InitialDelay = 300;
+            optimizeToolTip.ReshowDelay = 60;
+            optimizeToolTip.ToolTipIcon = ToolTipIcon.Info;
+            optimizeToolTip.ToolTipTitle = "Information";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -640,5 +669,7 @@
         private Label label_currentLevel;
         private Button btn_updateAC;
         private Label versionLabel;
+        private CheckBox cb_optimizeAutoComplete;
+        internal ToolTip optimizeToolTip;
     }
 }

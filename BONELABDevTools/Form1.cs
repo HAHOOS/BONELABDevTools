@@ -204,11 +204,29 @@ namespace BonelabDevMode
 
                     SetAutoComplete(ref tb_command, "Command", (barcode, type) =>
                     {
-                        if (type == BarcodeType.AVATAR) return (true, new string[] { $"avatar {barcode}" });
-                        else if (type == BarcodeType.SPAWNABLE) return (true, new string[] { $"spawn {barcode}" });
-                        else if (type == BarcodeType.LEVEL) return (true, new string[] { $"level {barcode}" });
-                        else if (type == BarcodeType.PALLET) return (true, new string[] { $"aw.load {barcode}", $"aw.unload {barcode}", $"aw.reload {barcode}", $"assetwarehouse.load {barcode}", $"assetwarehouse.unload {barcode}", $"assetwarehouse.reload {barcode}" });
-                        else return (false, new string[] { barcode });
+                        if (type == BarcodeType.AVATAR) return (true, [$"avatar {barcode}"]);
+                        else if (type == BarcodeType.SPAWNABLE) return (true, [$"spawn {barcode}"]);
+                        else if (type == BarcodeType.LEVEL) return (true, [$"level {barcode}"]);
+                        else if (type == BarcodeType.PALLET) return (true,
+                            (cb_optimizeAutoComplete.Checked
+
+                            ?
+
+                            [
+                                $"aw.load {barcode}",
+                                $"aw.unload {barcode}",
+                                $"aw.reload {barcode}",
+                            ]
+                            :
+                            [
+                                $"aw.load {barcode}",
+                                $"aw.unload {barcode}",
+                                $"aw.reload {barcode}",
+                                $"assetwarehouse.load {barcode}",
+                                $"assetwarehouse.load {barcode}",
+                                $"assetwarehouse.unload {barcode}",
+                            ]));
+                        else return (false, [barcode]);
                     }, acsc_cmd);
 
                     #endregion Cmd
@@ -217,8 +235,8 @@ namespace BonelabDevMode
 
                     SetAutoComplete(ref tb_level, "Level", (barcode, type) =>
                     {
-                        if (type == BarcodeType.LEVEL) return (true, new string[] { barcode });
-                        else return (false, new string[] { barcode });
+                        if (type == BarcodeType.LEVEL) return (true, [barcode]);
+                        else return (false, [barcode]);
                     });
 
                     #endregion Level
@@ -227,8 +245,8 @@ namespace BonelabDevMode
 
                     SetAutoComplete(ref tb_avatar, "Avatar", (barcode, type) =>
                     {
-                        if (type == BarcodeType.AVATAR) return (true, new string[] { barcode });
-                        else return (false, new string[] { barcode });
+                        if (type == BarcodeType.AVATAR) return (true, [barcode]);
+                        else return (false, [barcode]);
                     });
 
                     #endregion Avatar
@@ -237,8 +255,8 @@ namespace BonelabDevMode
 
                     SetAutoComplete(ref tb_spawn, "Spawn", (barcode, type) =>
                     {
-                        if (type == BarcodeType.SPAWNABLE) return (true, new string[] { barcode });
-                        else return (false, new string[] { barcode });
+                        if (type == BarcodeType.SPAWNABLE) return (true, [barcode]);
+                        else return (false, [barcode]);
                     });
 
                     #endregion Spawn
@@ -426,6 +444,8 @@ namespace BonelabDevMode
                     SetCmdButtonState(true);
 
                     SetStatus("Connected!", Color.Green);
+                    UpdateCoordinates("N/A");
+                    UpdateCurrentLevel("N/A");
 
                     break;
 
@@ -449,6 +469,11 @@ namespace BonelabDevMode
         }
 
         private void Btn_updateAC_Click(object sender, EventArgs e)
+        {
+            UpdateAutoComplete(checkBox_autoCompleteBarcodes.Checked);
+        }
+
+        private void Cb_optimizeAutoComplete_CheckedChanged(object sender, EventArgs e)
         {
             UpdateAutoComplete(checkBox_autoCompleteBarcodes.Checked);
         }
