@@ -62,6 +62,7 @@
             tb_spawn = new TextBox();
             btn_spawn = new Button();
             label_currentLevel = new Label();
+            versionLabel = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -497,12 +498,23 @@
             label_currentLevel.TabIndex = 12;
             label_currentLevel.Text = "Current Scene/Level: N/A";
             // 
+            // versionLabel
+            // 
+            versionLabel.AutoSize = true;
+            versionLabel.ForeColor = SystemColors.ControlLightLight;
+            versionLabel.Location = new Point(5, 581);
+            versionLabel.Name = "versionLabel";
+            versionLabel.Size = new Size(28, 15);
+            versionLabel.TabIndex = 13;
+            versionLabel.Text = "v3.0";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(517, 588);
+            ClientSize = new Size(517, 598);
+            Controls.Add(versionLabel);
             Controls.Add(label_currentLevel);
             Controls.Add(groupBox7);
             Controls.Add(label_coordinates);
@@ -627,5 +639,6 @@
         private Button btn_spawn;
         private Label label_currentLevel;
         private Button btn_updateAC;
+        private Label versionLabel;
     }
 }
