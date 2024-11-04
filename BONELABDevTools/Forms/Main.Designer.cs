@@ -1,6 +1,8 @@
-﻿namespace BonelabDevMode
+﻿//using BonelabDevMode.Controls;
+
+namespace BonelabDevMode
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         ///  Required designer variable.
@@ -36,9 +38,10 @@
             tb_pallet = new TextBox();
             tb_command = new TextBox();
             groupBox1 = new GroupBox();
+            btn_openBarcodeViewer = new Button();
             cb_optimizeAutoComplete = new CheckBox();
             btn_updateAC = new Button();
-            checkBox_autoCompleteBarcodes = new CheckBox();
+            cb_autoCompleteBarcodes = new CheckBox();
             btn_command = new Button();
             label_coordinates = new Label();
             groupBox2 = new GroupBox();
@@ -82,7 +85,7 @@
             btn_connect.ForeColor = SystemColors.ControlText;
             btn_connect.Location = new Point(6, 50);
             btn_connect.Name = "btn_connect";
-            btn_connect.Size = new Size(81, 23);
+            btn_connect.Size = new Size(133, 23);
             btn_connect.TabIndex = 0;
             btn_connect.Text = "Connect";
             btn_connect.UseVisualStyleBackColor = false;
@@ -94,9 +97,9 @@
             btn_disconnect.Enabled = false;
             btn_disconnect.FlatStyle = FlatStyle.Flat;
             btn_disconnect.ForeColor = SystemColors.ControlText;
-            btn_disconnect.Location = new Point(93, 50);
+            btn_disconnect.Location = new Point(168, 49);
             btn_disconnect.Name = "btn_disconnect";
-            btn_disconnect.Size = new Size(80, 23);
+            btn_disconnect.Size = new Size(113, 23);
             btn_disconnect.TabIndex = 1;
             btn_disconnect.Text = "Disconnect";
             btn_disconnect.UseVisualStyleBackColor = false;
@@ -109,7 +112,7 @@
             btn_levelreload.ForeColor = SystemColors.ControlText;
             btn_levelreload.Location = new Point(6, 22);
             btn_levelreload.Name = "btn_levelreload";
-            btn_levelreload.Size = new Size(167, 23);
+            btn_levelreload.Size = new Size(226, 23);
             btn_levelreload.TabIndex = 2;
             btn_levelreload.Text = "Reload Current Level";
             btn_levelreload.UseVisualStyleBackColor = false;
@@ -145,30 +148,44 @@
             tb_command.Location = new Point(6, 22);
             tb_command.Name = "tb_command";
             tb_command.PlaceholderText = "Command";
-            tb_command.Size = new Size(415, 23);
+            tb_command.Size = new Size(526, 23);
             tb_command.TabIndex = 5;
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btn_openBarcodeViewer);
             groupBox1.Controls.Add(cb_optimizeAutoComplete);
             groupBox1.Controls.Add(btn_updateAC);
-            groupBox1.Controls.Add(checkBox_autoCompleteBarcodes);
+            groupBox1.Controls.Add(cb_autoCompleteBarcodes);
             groupBox1.Controls.Add(btn_command);
             groupBox1.Controls.Add(tb_command);
             groupBox1.ForeColor = SystemColors.ControlLightLight;
             groupBox1.Location = new Point(12, 125);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(497, 92);
+            groupBox1.Size = new Size(604, 92);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Command";
+            // 
+            // btn_openBarcodeViewer
+            // 
+            btn_openBarcodeViewer.BackColor = SystemColors.ControlLight;
+            btn_openBarcodeViewer.FlatStyle = FlatStyle.Flat;
+            btn_openBarcodeViewer.ForeColor = SystemColors.ControlText;
+            btn_openBarcodeViewer.Location = new Point(308, 52);
+            btn_openBarcodeViewer.Name = "btn_openBarcodeViewer";
+            btn_openBarcodeViewer.Size = new Size(140, 28);
+            btn_openBarcodeViewer.TabIndex = 13;
+            btn_openBarcodeViewer.Text = "Open Barcode Viewer";
+            btn_openBarcodeViewer.UseVisualStyleBackColor = false;
+            btn_openBarcodeViewer.Click += Btn_openBarcodeViewer_Click;
             // 
             // cb_optimizeAutoComplete
             // 
             cb_optimizeAutoComplete.AutoSize = true;
             cb_optimizeAutoComplete.Checked = true;
             cb_optimizeAutoComplete.CheckState = CheckState.Checked;
-            cb_optimizeAutoComplete.Location = new Point(168, 58);
+            cb_optimizeAutoComplete.Location = new Point(6, 67);
             cb_optimizeAutoComplete.Name = "cb_optimizeAutoComplete";
             cb_optimizeAutoComplete.Size = new Size(156, 19);
             cb_optimizeAutoComplete.TabIndex = 12;
@@ -182,7 +199,7 @@
             btn_updateAC.BackColor = SystemColors.ControlLight;
             btn_updateAC.FlatStyle = FlatStyle.Flat;
             btn_updateAC.ForeColor = SystemColors.ControlText;
-            btn_updateAC.Location = new Point(347, 52);
+            btn_updateAC.Location = new Point(454, 52);
             btn_updateAC.Name = "btn_updateAC";
             btn_updateAC.Size = new Size(140, 28);
             btn_updateAC.TabIndex = 11;
@@ -190,25 +207,25 @@
             btn_updateAC.UseVisualStyleBackColor = false;
             btn_updateAC.Click += Btn_updateAC_Click;
             // 
-            // checkBox_autoCompleteBarcodes
+            // cb_autoCompleteBarcodes
             // 
-            checkBox_autoCompleteBarcodes.AutoSize = true;
-            checkBox_autoCompleteBarcodes.Checked = true;
-            checkBox_autoCompleteBarcodes.CheckState = CheckState.Checked;
-            checkBox_autoCompleteBarcodes.Location = new Point(6, 58);
-            checkBox_autoCompleteBarcodes.Name = "checkBox_autoCompleteBarcodes";
-            checkBox_autoCompleteBarcodes.Size = new Size(156, 19);
-            checkBox_autoCompleteBarcodes.TabIndex = 10;
-            checkBox_autoCompleteBarcodes.Text = "Auto complete barcodes";
-            checkBox_autoCompleteBarcodes.UseVisualStyleBackColor = true;
-            checkBox_autoCompleteBarcodes.CheckedChanged += CheckBox_autoCompleteBarcodes_CheckedChanged;
+            cb_autoCompleteBarcodes.AutoSize = true;
+            cb_autoCompleteBarcodes.Checked = true;
+            cb_autoCompleteBarcodes.CheckState = CheckState.Checked;
+            cb_autoCompleteBarcodes.Location = new Point(6, 51);
+            cb_autoCompleteBarcodes.Name = "cb_autoCompleteBarcodes";
+            cb_autoCompleteBarcodes.Size = new Size(184, 19);
+            cb_autoCompleteBarcodes.TabIndex = 10;
+            cb_autoCompleteBarcodes.Text = "Auto complete mod barcodes";
+            cb_autoCompleteBarcodes.UseVisualStyleBackColor = true;
+            cb_autoCompleteBarcodes.CheckedChanged += CheckBox_autoCompleteBarcodes_CheckedChanged;
             // 
             // btn_command
             // 
             btn_command.BackColor = SystemColors.ControlLight;
             btn_command.FlatStyle = FlatStyle.Flat;
             btn_command.ForeColor = SystemColors.ControlText;
-            btn_command.Location = new Point(431, 22);
+            btn_command.Location = new Point(538, 22);
             btn_command.Name = "btn_command";
             btn_command.Size = new Size(56, 23);
             btn_command.TabIndex = 8;
@@ -234,7 +251,7 @@
             groupBox2.Controls.Add(tb_pallet);
             groupBox2.Controls.Add(btn_reloadpallet);
             groupBox2.ForeColor = SystemColors.ControlLightLight;
-            groupBox2.Location = new Point(198, 12);
+            groupBox2.Location = new Point(305, 12);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(311, 107);
             groupBox2.TabIndex = 8;
@@ -277,7 +294,7 @@
             groupBox3.ForeColor = SystemColors.ControlLightLight;
             groupBox3.Location = new Point(12, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(180, 107);
+            groupBox3.Size = new Size(287, 107);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Connection";
@@ -289,7 +306,7 @@
             tb_ipport.Location = new Point(6, 21);
             tb_ipport.Name = "tb_ipport";
             tb_ipport.PlaceholderText = "ws://IP:Port/console";
-            tb_ipport.Size = new Size(167, 23);
+            tb_ipport.Size = new Size(275, 23);
             tb_ipport.TabIndex = 7;
             tb_ipport.Text = "ws://localhost:50152/console";
             // 
@@ -312,7 +329,7 @@
             groupBox4.ForeColor = SystemColors.ControlLightLight;
             groupBox4.Location = new Point(12, 249);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(180, 113);
+            groupBox4.Size = new Size(238, 113);
             groupBox4.TabIndex = 10;
             groupBox4.TabStop = false;
             groupBox4.Text = "Level";
@@ -324,7 +341,7 @@
             btn_loadLevel.ForeColor = SystemColors.ControlText;
             btn_loadLevel.Location = new Point(6, 84);
             btn_loadLevel.Name = "btn_loadLevel";
-            btn_loadLevel.Size = new Size(167, 23);
+            btn_loadLevel.Size = new Size(226, 23);
             btn_loadLevel.TabIndex = 6;
             btn_loadLevel.Text = "Load Level";
             btn_loadLevel.UseVisualStyleBackColor = false;
@@ -337,7 +354,7 @@
             tb_level.Location = new Point(6, 55);
             tb_level.Name = "tb_level";
             tb_level.PlaceholderText = "Level Barcode";
-            tb_level.Size = new Size(167, 23);
+            tb_level.Size = new Size(226, 23);
             tb_level.TabIndex = 5;
             // 
             // groupBox5
@@ -352,7 +369,7 @@
             groupBox5.ForeColor = SystemColors.ControlLightLight;
             groupBox5.Location = new Point(12, 368);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(497, 208);
+            groupBox5.Size = new Size(604, 208);
             groupBox5.TabIndex = 11;
             groupBox5.TabStop = false;
             groupBox5.Text = "Logs";
@@ -362,7 +379,7 @@
             cb_logWarnings.AutoSize = true;
             cb_logWarnings.Checked = true;
             cb_logWarnings.CheckState = CheckState.Checked;
-            cb_logWarnings.Location = new Point(272, 154);
+            cb_logWarnings.Location = new Point(354, 154);
             cb_logWarnings.Name = "cb_logWarnings";
             cb_logWarnings.Size = new Size(76, 19);
             cb_logWarnings.TabIndex = 14;
@@ -372,9 +389,7 @@
             // cb_logDebug
             // 
             cb_logDebug.AutoSize = true;
-            cb_logDebug.Checked = true;
-            cb_logDebug.CheckState = CheckState.Checked;
-            cb_logDebug.Location = new Point(139, 154);
+            cb_logDebug.Location = new Point(187, 154);
             cb_logDebug.Name = "cb_logDebug";
             cb_logDebug.Size = new Size(61, 19);
             cb_logDebug.TabIndex = 13;
@@ -387,7 +402,7 @@
             cb_logErrors.AutoSize = true;
             cb_logErrors.Checked = true;
             cb_logErrors.CheckState = CheckState.Checked;
-            cb_logErrors.Location = new Point(431, 154);
+            cb_logErrors.Location = new Point(513, 154);
             cb_logErrors.Name = "cb_logErrors";
             cb_logErrors.Size = new Size(56, 19);
             cb_logErrors.TabIndex = 12;
@@ -400,7 +415,7 @@
             cb_logMessage.AutoSize = true;
             cb_logMessage.Checked = true;
             cb_logMessage.CheckState = CheckState.Checked;
-            cb_logMessage.Location = new Point(6, 154);
+            cb_logMessage.Location = new Point(21, 154);
             cb_logMessage.Name = "cb_logMessage";
             cb_logMessage.Size = new Size(77, 19);
             cb_logMessage.TabIndex = 11;
@@ -419,7 +434,7 @@
             lv_logs.MultiSelect = false;
             lv_logs.Name = "lv_logs";
             lv_logs.ShowGroups = false;
-            lv_logs.Size = new Size(481, 126);
+            lv_logs.Size = new Size(588, 126);
             lv_logs.TabIndex = 10;
             lv_logs.UseCompatibleStateImageBehavior = false;
             lv_logs.View = View.Details;
@@ -431,7 +446,7 @@
             btn_clearLogs.ForeColor = SystemColors.ControlText;
             btn_clearLogs.Location = new Point(6, 179);
             btn_clearLogs.Name = "btn_clearLogs";
-            btn_clearLogs.Size = new Size(481, 23);
+            btn_clearLogs.Size = new Size(588, 23);
             btn_clearLogs.TabIndex = 9;
             btn_clearLogs.Text = "Clear";
             btn_clearLogs.UseVisualStyleBackColor = false;
@@ -442,9 +457,9 @@
             groupBox6.Controls.Add(tb_avatar);
             groupBox6.Controls.Add(btn_setAvatar);
             groupBox6.ForeColor = SystemColors.ControlLightLight;
-            groupBox6.Location = new Point(198, 249);
+            groupBox6.Location = new Point(256, 271);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(311, 45);
+            groupBox6.Size = new Size(360, 45);
             groupBox6.TabIndex = 9;
             groupBox6.TabStop = false;
             groupBox6.Text = "Avatar";
@@ -456,7 +471,7 @@
             tb_avatar.Location = new Point(6, 15);
             tb_avatar.Name = "tb_avatar";
             tb_avatar.PlaceholderText = "Avatar barcode";
-            tb_avatar.Size = new Size(217, 23);
+            tb_avatar.Size = new Size(266, 23);
             tb_avatar.TabIndex = 4;
             // 
             // btn_setAvatar
@@ -464,7 +479,7 @@
             btn_setAvatar.BackColor = SystemColors.ControlLight;
             btn_setAvatar.FlatStyle = FlatStyle.Flat;
             btn_setAvatar.ForeColor = SystemColors.ControlText;
-            btn_setAvatar.Location = new Point(229, 15);
+            btn_setAvatar.Location = new Point(278, 15);
             btn_setAvatar.Name = "btn_setAvatar";
             btn_setAvatar.Size = new Size(72, 23);
             btn_setAvatar.TabIndex = 3;
@@ -477,9 +492,9 @@
             groupBox7.Controls.Add(tb_spawn);
             groupBox7.Controls.Add(btn_spawn);
             groupBox7.ForeColor = SystemColors.ControlLightLight;
-            groupBox7.Location = new Point(198, 317);
+            groupBox7.Location = new Point(256, 317);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(311, 45);
+            groupBox7.Size = new Size(360, 45);
             groupBox7.TabIndex = 10;
             groupBox7.TabStop = false;
             groupBox7.Text = "Spawn";
@@ -491,7 +506,7 @@
             tb_spawn.Location = new Point(6, 15);
             tb_spawn.Name = "tb_spawn";
             tb_spawn.PlaceholderText = "Spawnable barcode";
-            tb_spawn.Size = new Size(229, 23);
+            tb_spawn.Size = new Size(278, 23);
             tb_spawn.TabIndex = 4;
             // 
             // btn_spawn
@@ -499,7 +514,7 @@
             btn_spawn.BackColor = SystemColors.ControlLight;
             btn_spawn.FlatStyle = FlatStyle.Flat;
             btn_spawn.ForeColor = SystemColors.ControlText;
-            btn_spawn.Location = new Point(241, 15);
+            btn_spawn.Location = new Point(290, 16);
             btn_spawn.Name = "btn_spawn";
             btn_spawn.Size = new Size(60, 23);
             btn_spawn.TabIndex = 3;
@@ -537,12 +552,12 @@
             optimizeToolTip.ToolTipIcon = ToolTipIcon.Info;
             optimizeToolTip.ToolTipTitle = "Information";
             // 
-            // Form1
+            // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(517, 598);
+            ClientSize = new Size(628, 598);
             Controls.Add(versionLabel);
             Controls.Add(label_currentLevel);
             Controls.Add(groupBox7);
@@ -554,7 +569,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "Form1";
+            Name = "Main";
             Text = "BONELAB Developer Mode Tools";
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);
@@ -642,7 +657,7 @@
         private void btn_clearLogs1(object sender, System.EventArgs e)
         {
             lv_logs.Items.Clear();
-            Form1.AllLogs.Clear();
+            Main.AllLogs.Clear();
             DevMode.DontLog = [];
         }
 
@@ -650,7 +665,7 @@
         private GroupBox groupBox5;
         private Button btn_clearLogs;
         private Label label_coordinates;
-        private CheckBox checkBox_autoCompleteBarcodes;
+        private CheckBox cb_autoCompleteBarcodes;
         private CheckBox cb_logMessage;
         private ListView lv_logs;
         private CheckBox cb_logDebug;
@@ -671,5 +686,6 @@
         private Label versionLabel;
         private CheckBox cb_optimizeAutoComplete;
         internal ToolTip optimizeToolTip;
+        private Button btn_openBarcodeViewer;
     }
 }

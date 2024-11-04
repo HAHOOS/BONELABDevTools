@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
-using static BonelabDevMode.Form1;
+using static BonelabDevMode.Main;
 
 namespace BonelabDevMode
 {
@@ -19,7 +19,13 @@ namespace BonelabDevMode
 
         public static List<int> DontLog = [];
 
+        public static CustomBackgroundWorker? bw_connect;
+
+        public static CustomBackgroundWorker? bw_disconnect;
+
         public static bool Update = true;
+
+        public static string address;
 
         public static void UpdateCoordinates()
         {
@@ -42,8 +48,7 @@ namespace BonelabDevMode
                     if (msg.EventArgs != null && msg.EventArgs.Data?.StartsWith("whereami: teleport") == true)
                     {
                         var coordinates = msg.EventArgs.Data.Replace("whereami: teleport ", string.Empty);
-                        DontLog.Add(msg.MessageID);
-                        Form1.Instance?.UpdateCoordinates(coordinates, ref events, ref _event);
+                        Main.Instance?.UpdateCoordinates(coordinates, ref events, ref _event);
                     }
                 };
                 events.OnMessage += _event;
@@ -52,6 +57,80 @@ namespace BonelabDevMode
             timer.Interval = 175;
             timer.AutoReset = true;
             timer.Start();
+        }
+
+        public static void Setup()
+        {
+            bw_connect = new CustomBackgroundWorker
+            {
+                Start = () =>
+             {
+                 Main.Instance?.SetEnabledState(Main.WebSocketConnectionState.CONNECTING);
+                 state = WebSocketConnectionState.CONNECTING;
+                 if (websocket != null)
+                 {
+                     Main.Instance?.AddLog("An existing connection was found, disconnecting");
+                     ((IDisposable)websocket).Dispose();
+                     websocket = null;
+                 }
+
+                 try
+                 {
+                     Main.Instance?.AddLog("Connecting...");
+                     websocket = new WebSocketSharp.WebSocket(address);
+                     events = new WebSocketEvents(websocket);
+                     events.OnLateMessage += (sender, e) => { if (!DontLog.Contains(e.MessageID)) Main.Instance?.AddLog($"[WEBSOCKET] {e.EventArgs.Data}"); };
+                     events.OnMessage += UpdateCurrentLevel_HideMessages;
+                     events.OnMessage += UpdateCurrentCoordinates_HideMessages;
+
+                     websocket.OnOpen += (sender, e) =>
+                     {
+                         Main.Instance?.SetEnabledState(Main.WebSocketConnectionState.CONNECTED);
+                         state = WebSocketConnectionState.CONNECTED;
+                         Main.Instance?.AddLog("[WEBSOCKET] Successfully connected!");
+                         UpdateCurrentLevel();
+                         UpdateCoordinates();
+                     };
+                     websocket.OnError += (sender, e) => Main.Instance?.AddLog($"[ERROR] [WEBSOCKET] The WebSocket threw an exception: {e}", LogType.ERROR);
+                     websocket.OnClose += (sender, e) =>
+                     {
+                         Main.Instance?.SetEnabledState(Main.WebSocketConnectionState.DISCONNECTED);
+                         state = WebSocketConnectionState.DISCONNECTED;
+                         Main.Instance?.AddLog("[WEBSOCKET] WebSocket closed/disconnected");
+                     };
+
+                     websocket.Connect();
+                 }
+                 catch (Exception e)
+                 {
+                     Main.Instance?.AddLog($"[ERROR] [WEBSOCKET] {e}", LogType.ERROR);
+                     Main.Instance?.SetEnabledState(Main.WebSocketConnectionState.DISCONNECTED);
+                     state = WebSocketConnectionState.DISCONNECTED;
+                 }
+             }
+            };
+
+            bw_disconnect = new CustomBackgroundWorker()
+            {
+                Start = () =>
+                {
+                    try
+                    {
+                        Main.Instance?.AddLog("Disconnecting...");
+                        state = WebSocketConnectionState.DISCONNECTING;
+                        Main.Instance?.SetEnabledState(WebSocketConnectionState.DISCONNECTING);
+                        websocket?.Close();
+                        (websocket as IDisposable)?.Dispose();
+                        websocket = null;
+                    }
+                    catch (Exception e)
+                    {
+                        Main.Instance?.AddLog($"[ERROR] [WEBSOCKET] {e}");
+                        Main.Instance?.SetEnabledState(WebSocketConnectionState.DISCONNECTED);
+                        state = WebSocketConnectionState.DISCONNECTED;
+                    }
+                }
+            };
         }
 
         public static void UpdateCurrentLevel()
@@ -84,7 +163,7 @@ namespace BonelabDevMode
                             Scene? scene = JsonConvert.DeserializeObject<Scene>(msg.EventArgs.Data);
                             if (scene != null)
                             {
-                                Form1.Instance?.UpdateCurrentLevel(scene.name, ref events, ref _event);
+                                Main.Instance?.UpdateCurrentLevel(scene.name, ref events, ref _event);
                             }
                         }
                     }
@@ -100,47 +179,9 @@ namespace BonelabDevMode
 
         public static void ConnectButton(string ipppath)
         {
-            Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.CONNECTING);
-            state = WebSocketConnectionState.CONNECTING;
-            if (websocket != null)
-            {
-                Form1.Instance?.AddLog("An existing connection was found, disconnecting");
-                ((IDisposable)websocket).Dispose();
-                websocket = null;
-            }
-
-            try
-            {
-                Form1.Instance?.AddLog("Connecting...");
-                websocket = new WebSocketSharp.WebSocket(ipppath);
-                events = new WebSocketEvents(websocket);
-                events.OnLateMessage += (sender, e) => { if (!DontLog.Contains(e.MessageID)) Form1.Instance?.AddLog($"[WEBSOCKET] {e.EventArgs.Data}"); };
-                events.OnMessage += UpdateCurrentLevel_HideMessages;
-
-                websocket.OnOpen += (sender, e) =>
-                {
-                    Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.CONNECTED);
-                    state = WebSocketConnectionState.CONNECTED;
-                    Form1.Instance?.AddLog("[WEBSOCKET] Successfully connected!");
-                    UpdateCurrentLevel();
-                    UpdateCoordinates();
-                };
-                websocket.OnError += (sender, e) => Form1.Instance?.AddLog($"[ERROR] [WEBSOCKET] The WebSocket threw an exception: {e}", LogType.ERROR);
-                websocket.OnClose += (sender, e) =>
-                {
-                    Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.DISCONNECTED);
-                    state = WebSocketConnectionState.DISCONNECTED;
-                    Form1.Instance?.AddLog("[WEBSOCKET] WebSocket closed/disconnected");
-                };
-
-                websocket.Connect();
-            }
-            catch (Exception e)
-            {
-                Form1.Instance?.AddLog($"[ERROR] [WEBSOCKET] {e}");
-                Form1.Instance?.SetEnabledState(Form1.WebSocketConnectionState.DISCONNECTED);
-                state = WebSocketConnectionState.DISCONNECTED;
-            }
+            if (bw_connect == null) Setup();
+            address = ipppath;
+            bw_connect?.Work();
         }
 
         internal static void AddProperty(ref JSchema schema, string name, JSchemaType type)
@@ -183,23 +224,15 @@ namespace BonelabDevMode
             else if (IsSceneSchemaValid(e.EventArgs.Data) && (!lastCommand.StartsWith("scene.list") || (lastCommand_ExecutionDate == null || DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommand_ExecutionDate >= 100))) DontLog.Add(e.MessageID);
         }
 
+        private static void UpdateCurrentCoordinates_HideMessages(object? sender, CustomMessageEventArgs e)
+        {
+            if ((e.EventArgs.Data.StartsWith("whereami: teleport") && (!lastCommand.StartsWith("whereami") || (lastCommand_ExecutionDate == null || DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommand_ExecutionDate >= 100)))) DontLog.Add(e.MessageID);
+        }
+
         public static void DisconnectButton()
         {
-            try
-            {
-                Form1.Instance?.AddLog("Disconnecting...");
-                state = WebSocketConnectionState.DISCONNECTING;
-                Form1.Instance?.SetEnabledState(WebSocketConnectionState.DISCONNECTING);
-                websocket?.Close();
-                (websocket as IDisposable)?.Dispose();
-                websocket = null;
-            }
-            catch (Exception e)
-            {
-                Form1.Instance?.AddLog($"[ERROR] [WEBSOCKET] {e}");
-                Form1.Instance?.SetEnabledState(WebSocketConnectionState.DISCONNECTED);
-                state = WebSocketConnectionState.DISCONNECTED;
-            }
+            if (bw_disconnect == null) Setup();
+            bw_disconnect?.Work();
         }
 
         public static void SendCommand(string command)
