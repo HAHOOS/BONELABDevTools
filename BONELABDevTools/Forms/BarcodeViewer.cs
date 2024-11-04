@@ -65,6 +65,7 @@ namespace BonelabDevMode
             InitializeComponent();
             bw_search.Start = () =>
             {
+                EnableButtons(false);
                 //_Update();
                 if (gb_list.InvokeRequired) gb_list.Invoke(() => gb_list.Text = "List (Searching with filters...)");
                 else gb_list.Text = "List (Searching with filters...)";
@@ -133,10 +134,12 @@ namespace BonelabDevMode
                 else resume();
                 if (gb_list.InvokeRequired) gb_list.Invoke(() => gb_list.Text = $"List ({lv_barcodes?.Items.Count} found)");
                 else gb_list.Text = $"List ({lv_barcodes?.Items.Count} found)";
+                EnableButtons(true);
             };
 
             bw_list.Start = () =>
             {
+                EnableButtons(false);
                 if (gb_list.InvokeRequired) gb_list.Invoke(() => gb_list.Text = "List (Updating, please wait...)");
                 else gb_list.Text = "List (Updating, please wait...)";
 
@@ -266,6 +269,15 @@ namespace BonelabDevMode
             };
 
             UpdateList();
+        }
+
+        public void EnableButtons(bool enable)
+        {
+            InvokeSafe(btn_search, () =>
+            {
+                btn_search.Enabled = enable;
+                btn_refresh.Enabled = enable;
+            });
         }
 
         public static string EmptyDefault(string? text)
