@@ -158,7 +158,7 @@ namespace BonelabDevMode
 
         #endregion Guns
 
-        #region Melee
+            #region Melee
 
         // Blunt
         new BONELABContent("c1534c5a-e962-46dd-b1ef-f39542617262", "BarbedBat", BarcodeType.SPAWNABLE),

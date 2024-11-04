@@ -25,7 +25,7 @@ namespace BonelabDevMode
 
         public static bool Update = true;
 
-        public static string address;
+        public static string? address;
 
         public static void UpdateCoordinates()
         {
@@ -226,7 +226,7 @@ namespace BonelabDevMode
 
         private static void UpdateCurrentCoordinates_HideMessages(object? sender, CustomMessageEventArgs e)
         {
-            if ((e.EventArgs.Data.StartsWith("whereami: teleport") && (!lastCommand.StartsWith("whereami") || (lastCommand_ExecutionDate == null || DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommand_ExecutionDate >= 100)))) DontLog.Add(e.MessageID);
+            if (e.EventArgs.Data.StartsWith("whereami: teleport") && (!lastCommand.StartsWith("whereami") || (lastCommand_ExecutionDate == null || DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommand_ExecutionDate >= 100))) DontLog.Add(e.MessageID);
         }
 
         public static void DisconnectButton()

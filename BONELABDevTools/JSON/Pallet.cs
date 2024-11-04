@@ -103,7 +103,7 @@ namespace BonelabDevMode.JSON
         {
         }
 
-        public PalletObject(string barcode, BarcodeType type, string title, bool isBONELABContent = true, string? description = null, string? displayName = null, string? author = null, string? version = null, string? sDKVersion = null, ISA? ISA = null, Pallet? pallet = null, PalletObject? origin = null, List<Crate> crates = null, List<ChangeLog> changeLogs = null, List<string> tags = null)
+        public PalletObject(string barcode, BarcodeType type, string title, bool isBONELABContent = true, string? description = null, string? displayName = null, string? author = null, string? version = null, string? sDKVersion = null, ISA? ISA = null, Pallet? pallet = null, PalletObject? origin = null, List<Crate>? crates = null, List<ChangeLog>? changeLogs = null, List<string>? tags = null)
         {
             Barcode = barcode;
             Pallet = pallet;
@@ -146,10 +146,10 @@ namespace BonelabDevMode.JSON
     public class Crate
     {
         [JsonProperty("ref")]
-        public string Ref;
+        public required string Ref;
 
         [JsonProperty("type")]
-        public string Type;
+        public required string Type;
     }
 
     public class ChangeLog

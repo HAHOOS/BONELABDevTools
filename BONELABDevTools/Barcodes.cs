@@ -4,7 +4,9 @@ namespace BonelabDevMode
 {
     public static class Barcodes
     {
-        public static List<PalletObject> barcodes = [];
+#pragma warning disable IDE1006 // Naming Styles
+        public static List<PalletObject> barcodes { get; internal set; } = [];
+#pragma warning restore IDE1006 // Naming Styles
 
         public static void AddDefaults()
         {

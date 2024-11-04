@@ -100,7 +100,7 @@ namespace BonelabDevMode
             lv_barcodes.TabIndex = 0;
             lv_barcodes.UseCompatibleStateImageBehavior = false;
             lv_barcodes.View = View.Details;
-            lv_barcodes.MouseClick += lv_barcodes_MouseClick;
+            lv_barcodes.MouseClick += Lv_barcodes_MouseClick;
             // 
             // Barcode
             // 
@@ -326,14 +326,14 @@ namespace BonelabDevMode
             openContainingFolderInExplorerToolStripMenuItem.Name = "openContainingFolderInExplorerToolStripMenuItem";
             openContainingFolderInExplorerToolStripMenuItem.Size = new Size(260, 22);
             openContainingFolderInExplorerToolStripMenuItem.Text = "Open Containing Folder in Explorer";
-            openContainingFolderInExplorerToolStripMenuItem.Click += openContainingFolderInExplorerToolStripMenuItem_Click;
+            openContainingFolderInExplorerToolStripMenuItem.Click += OpenContainingFolderInExplorerToolStripMenuItem_Click;
             // 
             // openJSONFileToolStripMenuItem
             // 
             openJSONFileToolStripMenuItem.Name = "openJSONFileToolStripMenuItem";
             openJSONFileToolStripMenuItem.Size = new Size(260, 22);
             openJSONFileToolStripMenuItem.Text = "Open JSON file";
-            openJSONFileToolStripMenuItem.Click += openJSONFileToolStripMenuItem_Click;
+            openJSONFileToolStripMenuItem.Click += OpenJSONFileToolStripMenuItem_Click;
             // 
             // editValuesToolStripMenuItem
             // 
@@ -347,21 +347,21 @@ namespace BonelabDevMode
             palletToolStripMenuItem1.Name = "palletToolStripMenuItem1";
             palletToolStripMenuItem1.Size = new Size(109, 22);
             palletToolStripMenuItem1.Text = "Pallet";
-            palletToolStripMenuItem1.Click += palletToolStripMenuItem1_Click;
+            palletToolStripMenuItem1.Click += PalletToolStripMenuItem1_Click;
             // 
             // objectToolStripMenuItem1
             // 
             objectToolStripMenuItem1.Name = "objectToolStripMenuItem1";
             objectToolStripMenuItem1.Size = new Size(109, 22);
             objectToolStripMenuItem1.Text = "Object";
-            objectToolStripMenuItem1.Click += objectToolStripMenuItem1_Click;
+            objectToolStripMenuItem1.Click += ObjectToolStripMenuItem1_Click;
             // 
             // checkChangelogsToolStripMenuItem
             // 
             checkChangelogsToolStripMenuItem.Name = "checkChangelogsToolStripMenuItem";
             checkChangelogsToolStripMenuItem.Size = new Size(260, 22);
             checkChangelogsToolStripMenuItem.Text = "Check changelogs";
-            checkChangelogsToolStripMenuItem.Click += checkChangelogsToolStripMenuItem_Click;
+            checkChangelogsToolStripMenuItem.Click += CheckChangelogsToolStripMenuItem_Click;
             // 
             // removeToolStripMenuItem
             // 
@@ -375,14 +375,14 @@ namespace BonelabDevMode
             palletToolStripMenuItem.Name = "palletToolStripMenuItem";
             palletToolStripMenuItem.Size = new Size(109, 22);
             palletToolStripMenuItem.Text = "Pallet";
-            palletToolStripMenuItem.Click += palletToolStripMenuItem_Click;
+            palletToolStripMenuItem.Click += PalletToolStripMenuItem_Click;
             // 
             // objectToolStripMenuItem
             // 
             objectToolStripMenuItem.Name = "objectToolStripMenuItem";
             objectToolStripMenuItem.Size = new Size(109, 22);
             objectToolStripMenuItem.Text = "Object";
-            objectToolStripMenuItem.Click += objectToolStripMenuItem_Click;
+            objectToolStripMenuItem.Click += ObjectToolStripMenuItem_Click;
             // 
             // copyToolStripMenuItem
             // 

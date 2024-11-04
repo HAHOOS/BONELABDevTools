@@ -15,7 +15,9 @@ namespace BonelabDevMode
 
         public static ListViewItem? CmsItem { get; private set; }
 
+#pragma warning disable IDE1006 // Naming Styles
         public static List<string> tags { get; private set; } = [];
+#pragma warning restore IDE1006 // Naming Styles
 
         private readonly CustomBackgroundWorker bw_search = new();
         private readonly CustomBackgroundWorker bw_list = new();
@@ -263,7 +265,7 @@ namespace BonelabDevMode
                 bw_search.Work();
             };
 
-            _Update();
+            UpdateList();
         }
 
         public static string EmptyDefault(string? text)
@@ -304,14 +306,14 @@ namespace BonelabDevMode
             return false;
         }
 
-        public void _Update()
+        public void UpdateList()
         {
             bw_list.Work();
         }
 
         private void Btn_refresh_Click(object sender, EventArgs e)
         {
-            _Update();
+            UpdateList();
         }
 
         private void Search(object sender, EventArgs e)
@@ -319,7 +321,7 @@ namespace BonelabDevMode
             bw_search.Work();
         }
 
-        private void lv_barcodes_MouseClick(object sender, MouseEventArgs e)
+        private void Lv_barcodes_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -372,7 +374,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void openContainingFolderInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenContainingFolderInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -399,7 +401,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void openJSONFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenJSONFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -425,7 +427,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void checkChangelogsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CheckChangelogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -457,7 +459,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void palletToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PalletToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -522,7 +524,7 @@ namespace BonelabDevMode
             return [.. _return];
         }
 
-        private void objectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -613,7 +615,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void palletToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void PalletToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
@@ -651,7 +653,7 @@ namespace BonelabDevMode
             }
         }
 
-        private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void ObjectToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (CmsItem != null)
             {
